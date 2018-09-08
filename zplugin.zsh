@@ -41,10 +41,6 @@ elif [[ $CURRENT_OS == 'Linux' ]]; then
   elif [[ $DISTRO == 'Ubuntu' ]]; then
 
   fi
-
-elif [[ $CURRENT_OS == 'Cygwin' ]]; then
-  zplugin ice wait"0"
-  zplugin snippet OMZ::plugins/cygwin/cygwin.plugin.zsh
 fi
 
 # OS - Command Not Found Helper
