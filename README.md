@@ -1,9 +1,11 @@
-zshrc
+To Install
 =====
 ```zsh
 cd ~
-mkdir ~/git/zshrc
-git clone https://github.com/SeanOBoyle/zshrc ~/git/zshrc
-./git/zshrc/startup.bash
+mkdir ~/zshrc
+git clone https://github.com/blargony/zshrc zshrc
+mkdir ~/.zplugin
+git clone https://github.com/zdharma/zplugin.git ~/.zplugin/bin
+source zshrc/zshrc.zsh
 ```
 
