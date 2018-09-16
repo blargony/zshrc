@@ -7,6 +7,9 @@ alias srcrc="source ~/.zshrc"
 alias vib='vim ~/.zshrc'
 alias vic='vim ~/.vimrc'
 
+# Handling aliases with sudo
+alias sudo='sudo '
+
 # --------------------------------------
 # Directory navigation
 # --------------------------------------
@@ -41,8 +44,14 @@ alias git_prompt_on='git config oh-my-zsh.hide-status 0'
 # --------------------------------------
 # Python
 # --------------------------------------
+# Arg: A python script
 function profile {
     python -m cProfile "$@"
+}
+
+# Arg: A directory to search for unit tests in
+function pytest {
+    python -m unittest discover -s "$@"
 }
 
 # --------------------------------------
