@@ -11,9 +11,13 @@ export LC_ALL=en_US.UTF-8
 export EDITOR=vim
 export SVN_EDITOR=vim
 
+UNAME=`uname`
+
 if [[ $UNAME == 'Darwin' ]]; then
     CURRENT_OS='OS X'
     DISTRO='NA'
+    # Path to work with Brew
+    export PATH=/usr/local/bin:/usr/local/sbin:~/bin:/bin:/sbin:/usr/bin:/usr/sbin
     # virtualenv setup I use on OSX
     export WORKON_HOME=~/pydev
     source /usr/local/bin/virtualenvwrapper.sh
