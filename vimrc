@@ -26,7 +26,9 @@ call vundle#begin()
 " let Vundle manage Vundle, required
 Plugin 'gmarik/Vundle.vim'
 " Some 'sensible' defaults for VIM
-Plugin 'tpope/vim-sensible.git'
+if !has('nvim')
+  Plugin 'tpope/vim-sensible.git'
+endif
 
 " VIM as IDE tools
 " Auto-complete
@@ -173,6 +175,7 @@ au FileType javascript set ts=4 sts=4 sw=4     " Javascript
 au FileType docbk,html,xhtml,xml,tmpl,htmldjango set ts=2 sts=2 sw=2 tw=0 noexpandtab" DocBook, HTML, XHTML, and XML, Django Templates
 au FileType php set ts=2 sts=2 noexpandtab tw=0 " PHP
 au FileType perl set ts=2 sts=2 sw=2 tw=0
+au FileType tcl set ts=4 sts=4 sw=4 tw=0
 
 " Verilog/System Verilog
 au BufRead,BufNewFile *.v,*.vh,*.sv,*.svh set filetype=verilog_systemverilog
@@ -193,6 +196,12 @@ au BufRead,BufNewFile *.ado        setlocal filetype=stata
 au BufRead,BufNewFile *.class      setlocal filetype=stata
 au BufRead,BufNewFile *.do         setlocal filetype=stata
 
+
+" ------------------------------------------------------------------------------
+" Code folding limits
+" ------------------------------------------------------------------------------
+" autocmd FileType xml setlocal foldmethod=indent foldlevelstart=999 foldminlines=0
+"
 " ------------------------------------------------------------------------------
 " Special Handling of saving files
 " ------------------------------------------------------------------------------
@@ -205,6 +214,9 @@ au! bufwritepost .vimrc source %
 " ------------------------------------------------------------------------------
 "  File Navigation and Buffers
 " ------------------------------------------------------------------------------
+"  Remove the silly banner when using the file browser
+let g:netrw_banner = 0
+
 " --------------------------------------
 "  You Complete Me default compile flags
 " --------------------------------------
@@ -231,4 +243,9 @@ nnoremap <leader>% :MtaJumpToOtherTag<cr>
 " --------------------------------------
 " Relative Line Numbers
 " --------------------------------------
+" Switch numbers to normal vs relative
 nnoremap <leader>n :NumbersToggle<cr>
+
+" disable all line numbers
+nnoremap <C-n> :NumbersToggle<CR>:NumbersDisable<CR>
+
