@@ -13,10 +13,9 @@ alias sudo='sudo '
 # --------------------------------------
 # Directory navigation
 # --------------------------------------
-alias ls='ls -G'
-alias ll='ls -ltr'
-alias la='ls -a'
-alias dir='ls'
+alias ll='ls -lhtr'
+alias la='ls -alhtr'
+alias dir='ls -lhtr'
 
 # --------------------------------------
 # Misc aliases
