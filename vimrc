@@ -45,12 +45,12 @@ Plugin 'hynek/vim-python-pep8-indent'
 Plugin 'nvie/vim-flake8'
 
 " VIM as IDE UX changes
-" Buffer Management
-Plugin 'fholgado/minibufexpl.vim'
 " Fancy status line
 Plugin 'bling/vim-airline'
-" Relative vs Absolute line numbers toggle
-Plugin 'myusuf3/numbers.vim'
+
+" VIM as IDE - Revision control
+Plugin 'tpope/vim-fugitive'
+Plugin 'airblade/vim-gitgutter'
 
 " CSV Editor
 " Plugin 'chrisbra/csv.vim'
@@ -68,29 +68,16 @@ filetype plugin indent on    " required by Vundle
 " ------------------------------------------------------------------------------
 " Regular VIMRC stuff - also plugin configuration options
 " ------------------------------------------------------------------------------
-" ------------------------------------------------------------------------------
-"  The Basics
-"
-"  Check https://github.com/tpope/vim-sensible for many default changes
-" ------------------------------------------------------------------------------
-" set laststatus=2
-" set bs=2
-" syntax on
-
 " --------------------------------------
-" The <leader> key is a '/' by default.  Try a comma and see if I use it more
+" The <leader> key is a '/' by default.
+" --------------------------------------
 let mapleader = ","
 
 " --------------------------------------
 " Fancy color scheme
-" Only call this in iTerm2-256 Mode (or maybe Lion Terminal)
-colorscheme xoria256
-" colorscheme zenburn
-
 " --------------------------------------
-" Line Numbers Column - enable/disable and highlight color
-set number  " show line numbers
-highlight LineNr ctermfg=238 ctermbg=235
+syntax on
+colorscheme xoria256
 
 " --------------------------------------
 " Auto carriage return on line length
@@ -126,13 +113,13 @@ map <c-l> <c-w>l
 map <c-h> <c-w>h
 
 " --------------------------------------
-" Tabs - will we used them?
-" easier moving between tabs
-map <leader>n <esc>:tabprevious<CR>
-map <leader>m <esc>:tabnext<CR>
-
+" VIM Buffers and Tabs
+" --------------------------------------
 " buffers to tabs
 map <leader>, <esc>:tab sball<CR>
+
+" buffer navigation
+nnoremap gb :ls<CR>:b<Space>
 
 " --------------------------------------
 " Code Folding
@@ -155,6 +142,22 @@ vnoremap <leader>s :sort<CR>
 " vnoremap < <gv
 " vnoremap > >gv
 
+" --------------------------------------
+" Line Numbering
+" --------------------------------------
+set number relativenumber
+
+" Auto-toggle when changing buffer focus
+augroup numbertoggle
+  autocmd!
+  autocmd BufEnter,FocusGained,InsertLeave * set relativenumber
+  autocmd BufLeave,FocusLost,InsertEnter   * set norelativenumber
+augroup END
+
+" Shortcuts to toggle relative line numbers and all line numbering
+nnoremap <leader>n :set rnu!<CR>
+nnoremap <C-n> :set rnu!<CR>:set nu!<CR>
+
 " ------------------------------------------------------------------------------
 " Filetypes, Tab and Whitespace Management
 " ------------------------------------------------------------------------------
@@ -172,7 +175,7 @@ au FileType python set textwidth=0             " Python needs \ for newlines
 au FileType ruby   set ts=2 sw=2               " Ruby
 au FileType c,cpp  set ts=4 sw=4 cindent       " C & C++
 au FileType javascript set ts=4 sts=4 sw=4     " Javascript
-au FileType docbk,html,xhtml,xml,tmpl,htmldjango set ts=2 sts=2 sw=2 tw=0 noexpandtab" DocBook, HTML, XHTML, and XML, Django Templates
+au FileType docbk,html,xhtml,xml,tmpl,django set ts=2 sts=2 sw=2 tw=0 noexpandtab" DocBook, HTML, XHTML, and XML, Django Templates
 au FileType php set ts=2 sts=2 noexpandtab tw=0 " PHP
 au FileType perl set ts=2 sts=2 sw=2 tw=0
 au FileType tcl set ts=4 sts=4 sw=4 tw=0
@@ -191,17 +194,25 @@ au BufNewFile,BufRead views.py     setlocal filetype=python.django
 au BufNewFile,BufRead settings.py  setlocal filetype=python.django
 au BufNewFile,BufRead forms.py     setlocal filetype=python.django
 
+function! DetectDjangoTemplate()
+    let path = expand('%:p')
+    if path =~ '.*template.*'
+        set filetype=django
+    endif
+endfunction
+
+au BufRead,BufNewFile *.html call DetectDjangoTemplate()
+
 " Stata files
 au BufRead,BufNewFile *.ado        setlocal filetype=stata
 au BufRead,BufNewFile *.class      setlocal filetype=stata
 au BufRead,BufNewFile *.do         setlocal filetype=stata
 
-
 " ------------------------------------------------------------------------------
 " Code folding limits
 " ------------------------------------------------------------------------------
 " autocmd FileType xml setlocal foldmethod=indent foldlevelstart=999 foldminlines=0
-"
+
 " ------------------------------------------------------------------------------
 " Special Handling of saving files
 " ------------------------------------------------------------------------------
@@ -239,13 +250,4 @@ au FileType verilog_systemverilog let g:SuperTabDefaultCompletionType = "context
 " MatchTagAlways
 " --------------------------------------
 nnoremap <leader>% :MtaJumpToOtherTag<cr>
-
-" --------------------------------------
-" Relative Line Numbers
-" --------------------------------------
-" Switch numbers to normal vs relative
-nnoremap <leader>n :NumbersToggle<cr>
-
-" disable all line numbers
-nnoremap <C-n> :NumbersToggle<CR>:NumbersDisable<CR>
 
