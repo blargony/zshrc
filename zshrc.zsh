@@ -40,4 +40,5 @@ if [[ -e ~/zshrc_work/worktools.zsh ]]; then
     alias srcwrk='source ~/zshrc_work/worktools.zsh'
 fi
 
+# Uncommwent to enable the zsh profiler (debug performance issues)
 #zprof
